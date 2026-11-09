@@ -1,7 +1,7 @@
 <div align="center">
 
 <h1>
-  <a href="https://github.com/debug-cli/nzportable-duck"><img alt="nzportable-duck" src="https://readme-typing-svg.herokuapp.com/?font=JetBrains+Mono&amp;size=40&amp;duration=5000&amp;pause=1800&amp;repeat=true&amp;center=true&amp;vCenter=true&amp;width=760&amp;height=80&amp;lines=nzportable;duckmath&amp;color=A78BFA"></a>
+  <a href="https://github.com/debug-cli/nzportable-duck"><img alt="nzportable duckmath" src="assets/title.svg" width="760"></a>
 </h1>
 
 <p>

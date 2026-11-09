@@ -30,6 +30,7 @@ Repo: `debug-cli/nzportable-duck`. No website or GitHub Pages site exists, and n
 | Path | Purpose | Edit? |
 |---|---|---|
 | `README.md` | User guide. Plain language. | Yes |
+| `assets/title.svg` | Animated title. nzportable in blood rust `#9A2A15`, duckmath in duck yellow `#F2B705`. Hand-written SMIL, no external service. | Yes |
 | `AGENTS.md` | This file | Yes |
 | `TECHNICAL.md` | Root causes, source references, evidence | Yes, keep it factual |
 | `SOURCE.md` | GPL source pointer and equivalent source diff | Only if the patch changes |
