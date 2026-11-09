@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Repo: `debug-cli/nzportable-duck`. Patcher page: https://debug-cli.github.io/nzportable-duck/
+Repo: `debug-cli/nzportable-duck`. There is no website or GitHub Pages site, and none is wanted. Don't add one.
 
 Guide for AI coding agents and contributors working on this repo.
 
@@ -12,7 +12,6 @@ It lets Windows players join Nazi Zombies: Portable (NZ:P) **browser** co-op roo
 
 | Path | Purpose |
 |---|---|
-| `index.html` | GitHub Pages patcher UI. Static, offline, no dependencies. |
 | `patcher.js` | Patch logic, shared by the browser and Node. Pure JS, no build step. |
 | `tools/patch.py` | Same patch for people with Python. Must stay byte-identical in output to `patcher.js`. |
 | `tests/test-patch.js` | `node tests/test-patch.js <nzportable64.exe> [nzportable-sdl64.exe]` |
@@ -20,7 +19,6 @@ It lets Windows players join Nazi Zombies: Portable (NZ:P) **browser** co-op roo
 | `release/` | Text files copied into the release zip |
 | `.github/workflows/release.yml` | On release publish: download the official exe, verify it, patch it, assemble the zip, and upload it with SHA256SUMS |
 | `.github/workflows/rooms.yml`, `tools/rooms.py`, `status/` | Hourly snapshot of the web rooms from `master.frag-net.com:27950/raw/NZP-REBOOT-WEB`. Bot commits only touch `status/`. |
-| `.github/workflows/pages.yml` | Deploys `index.html`, `patcher.js`, `config/`, and `status/rooms.json` to GitHub Pages |
 | `.github/ISSUE_TEMPLATE/` | Join-problem and new-build forms |
 | `SECURITY.md`, `CHANGELOG.md` | Cert notes. Add a CHANGELOG entry for each release. |
 | `.github/workflows/verify.yml` | Downloads the official builds and runs both patchers. Also runs weekly. |
@@ -35,7 +33,7 @@ It lets Windows players join Nazi Zombies: Portable (NZ:P) **browser** co-op roo
 2. **Official engine only.** The input is nzp-team `pc-nzp-win64-nosdl.zip` from the `bleeding-edge` release. Do not use repacks, school mirrors, or third-party exes.
 3. **Never target the SDL exe** (`nzportable-sdl64.exe`). Its `Sys_RandomBytes` is a stub on Windows, so SCTP fails ("INIT malformed"). `patch()` must keep rejecting builds without `CryptGenRandom`.
 4. **Don't recommend the Vril/nightly build.** It has co-op disabled.
-5. **No command-line steps in user docs.** The patcher page, Explorer, and the in-game console are fine. PowerShell, CMD, and WSL are not.
+5. **No command-line steps in user docs.** The release zip, Explorer, and the in-game console are fine. PowerShell, CMD, and WSL are not.
 6. **Patch by pattern, verify by hash.** Find exactly one `a=setup:actpass\n\0`, replace it in place with `a=setup:active\n\0\0`, and change no other bytes. Refuse on 0 or more than 1 hits. A known input hash must produce its known output hash, or don't save.
 7. **Keep the facts dated.** Hashes and sizes of hosted data change. Write absolute dates (`2026-11-09`), never "today".
 8. **Don't invent servers.** There is no known public TURN relay for these rooms. Don't add one.
@@ -82,5 +80,5 @@ Ask for a console log: `~`, `net_ice_debug 2`, join, `condump joinlog`, then att
 ## Style
 
 - User docs: short, active sentences. Address the reader as "you". No jargon above the fold.
-- Code: plain ES5-compatible JS in `patcher.js` and `index.html` (old school Chromebooks). No frameworks, no bundler, no CDN.
+- Code: plain ES5-compatible JS in `patcher.js`. No frameworks, no bundler, no CDN.
 - Badges: shieldcn.dev, purple theme, JetBrains Mono, with a dark and light `<picture>` pair, matching the owner's other repos.

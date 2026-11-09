@@ -5,7 +5,7 @@ body:
   - type: input
     id: sha
     attributes:
-      label: sha256 of nzportable64.exe (the patcher page shows the first 16 characters)
+      label: sha256 of nzportable64.exe (tools/patch.py prints it)
   - type: textarea
     id: msg
     attributes:

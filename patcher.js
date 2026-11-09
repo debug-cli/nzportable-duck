@@ -4,7 +4,7 @@
  * so Windows SChannel can finish the handshake with Chrome-hosted NZ:P web rooms.
  *
  * Change: "a=setup:actpass\n\0" -> "a=setup:active\n\0\0" (17 bytes in place, 5 differ).
- * Runs in the browser (index.html) and in Node (tests/test-patch.js).
+ * Runs in a browser or in Node (tests/test-patch.js).
  * License: GPL-3.0. FTEQW is GPL-2.0-or-later.
  */
 (function (root) {

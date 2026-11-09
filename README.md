@@ -21,7 +21,6 @@
 
 <p>
   <a href="https://github.com/debug-cli/nzportable-duck/releases/latest"><b>Download</b></a> ·
-  <a href="https://debug-cli.github.io/nzportable-duck/"><b>Patcher page</b></a> ·
   <a href="status/ROOMS.md"><b>Live rooms</b></a> ·
   <a href="TECHNICAL.md"><b>How it works</b></a>
 </p>
@@ -42,7 +41,7 @@ Most NZ:P co-op players are in the browser on Duckmath. The official Windows gam
 4. Run `nzportable64-dtlsclient.exe`.
 5. Go to Co-operative, then the server browser, then refresh, and join an unlocked room.
 
-> Don't trust a downloaded exe? Use the [patcher page](https://debug-cli.github.io/nzportable-duck/) instead. It patches your own copy of the official nzp-team exe in your browser and checks the hash. Nothing is uploaded.
+> Don't trust a downloaded exe? Patch your own copy of the official nzp-team exe with `tools/patch.py`. It checks the hash before saving. See [TECHNICAL.md](TECHNICAL.md) for the exact bytes.
 
 ## Game data
 
