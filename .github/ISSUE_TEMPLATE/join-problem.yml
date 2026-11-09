@@ -1,0 +1,36 @@
+name: Can't join a room
+description: The game lists rooms but joining fails
+labels: [join-problem]
+body:
+  - type: markdown
+    attributes:
+      value: "Get a log first: press ~, type `net_ice_debug 2`, join the room, then type `condump joinlog`. The file is `nzp\\joinlog.txt`."
+  - type: dropdown
+    id: folder
+    attributes:
+      label: Which folder did you use?
+      options: [NZP-Duck (Duckmath data), NZP-Web (nzp.gay data), My own setup]
+    validations:
+      required: true
+  - type: dropdown
+    id: network
+    attributes:
+      label: Where were you?
+      options: [School, Home, Other]
+  - type: input
+    id: room
+    attributes:
+      label: Room address
+      placeholder: rtc:///42
+  - type: textarea
+    id: lastline
+    attributes:
+      label: Last error line in the console
+      placeholder: e.g. Map model file does not match (maps/4all.bsp)
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Attach joinlog.txt
+      description: Drag the file here.

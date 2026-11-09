@@ -1,0 +1,274 @@
+{
+ "updated": "2026-11-09 19:42 UTC",
+ "source": "http://master.frag-net.com:27950/raw/",
+ "games": {
+  "NZP-REBOOT-WEB": [
+   {
+    "address": "rtc:///246",
+    "host": "unnam",
+    "map": "loop",
+    "players": 2,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///245",
+    "host": "unnam",
+    "map": "loop",
+    "players": 2,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///244",
+    "host": "mani",
+    "map": "bunker-defense",
+    "players": 1,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///243",
+    "host": "mani",
+    "map": "bunker-defense",
+    "players": 1,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///240",
+    "host": "FEM BOIs",
+    "map": "christmas_speci",
+    "players": 3,
+    "max": 3,
+    "locked": false
+   },
+   {
+    "address": "rtc:///239",
+    "host": "FEM BOIs",
+    "map": "christmas_speci",
+    "players": 3,
+    "max": 3,
+    "locked": false
+   },
+   {
+    "address": "rtc:///238",
+    "host": "bratwurst",
+    "map": "lexi_overlook",
+    "players": 2,
+    "max": 2,
+    "locked": false
+   },
+   {
+    "address": "rtc:///237",
+    "host": "bratwurst",
+    "map": "lexi_overlook",
+    "players": 2,
+    "max": 2,
+    "locked": false
+   },
+   {
+    "address": "rtc:///234",
+    "host": "Chris",
+    "map": "lexi_house",
+    "players": 3,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///233",
+    "host": "Chris",
+    "map": "lexi_house",
+    "players": 3,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///230",
+    "host": "un",
+    "map": "nzp_warehouse",
+    "players": 4,
+    "max": 4,
+    "locked": true
+   },
+   {
+    "address": "rtc:///229",
+    "host": "un",
+    "map": "nzp_warehouse",
+    "players": 4,
+    "max": 4,
+    "locked": true
+   },
+   {
+    "address": "rtc:///228",
+    "host": "FDZ BLINDS ",
+    "map": "nzp_warehouse2",
+    "players": 2,
+    "max": 2,
+    "locked": false
+   },
+   {
+    "address": "rtc:///227",
+    "host": "FDZ BLINDS ",
+    "map": "nzp_warehouse2",
+    "players": 2,
+    "max": 2,
+    "locked": false
+   },
+   {
+    "address": "rtc:///220",
+    "host": "unnamed",
+    "map": "corner",
+    "players": 1,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///219",
+    "host": "unnamed",
+    "map": "corner",
+    "players": 1,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///206",
+    "host": "8th",
+    "map": "ndu",
+    "players": 1,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///205",
+    "host": "8th",
+    "map": "ndu",
+    "players": 1,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///194",
+    "host": "daddy",
+    "map": "nzp_warehouse2",
+    "players": 1,
+    "max": 3,
+    "locked": false
+   },
+   {
+    "address": "rtc:///193",
+    "host": "daddy",
+    "map": "nzp_warehouse2",
+    "players": 1,
+    "max": 3,
+    "locked": false
+   },
+   {
+    "address": "rtc:///169",
+    "host": "maicu",
+    "map": "nzp_xmas2",
+    "players": 3,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///168",
+    "host": "maicu",
+    "map": "nzp_xmas2",
+    "players": 3,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///159",
+    "host": "polish dictator",
+    "map": "boxxer",
+    "players": 1,
+    "max": 4,
+    "locked": true
+   },
+   {
+    "address": "rtc:///158",
+    "host": "polish dictator",
+    "map": "boxxer",
+    "players": 1,
+    "max": 4,
+    "locked": true
+   },
+   {
+    "address": "rtc:///155",
+    "host": "unnamed",
+    "map": "fegefeuer",
+    "players": 2,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///154",
+    "host": "unnamed",
+    "map": "fegefeuer",
+    "players": 2,
+    "max": 4,
+    "locked": false
+   },
+   {
+    "address": "rtc:///147",
+    "host": "FRUTIGER AERO YAMS",
+    "map": "ndu",
+    "players": 1,
+    "max": 8,
+    "locked": true
+   },
+   {
+    "address": "rtc:///145",
+    "host": "FRUTIGER AERO YAMS",
+    "map": "ndu",
+    "players": 1,
+    "max": 8,
+    "locked": true
+   },
+   {
+    "address": "rtc:///85",
+    "host": "playing custom maps fr",
+    "map": "hausuberleben",
+    "players": 3,
+    "max": 8,
+    "locked": false
+   },
+   {
+    "address": "rtc:///84",
+    "host": "playing custom maps fr",
+    "map": "hausuberleben",
+    "players": 3,
+    "max": 8,
+    "locked": false
+   }
+  ],
+  "NZP-REBOOT": [
+   {
+    "address": "129.213.130.205:27500",
+    "host": "Purgatory-NZP",
+    "map": "derriese",
+    "players": 0,
+    "max": 8,
+    "locked": true
+   },
+   {
+    "address": "rtc:///688",
+    "host": "[PL] Blade0's Custom Map Server",
+    "map": "ftwo",
+    "players": 0,
+    "max": 8,
+    "locked": false
+   },
+   {
+    "address": "rtc:///1299",
+    "host": "[rc.noob.club] NZP Public",
+    "map": "4all",
+    "players": 0,
+    "max": 8,
+    "locked": false
+   }
+  ]
+ }
+}

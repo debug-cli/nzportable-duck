@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nzportable-duck: NZ:P web co-op on Windows</title>
+<style>
+  :root { --bg:#0f0d17; --card:#1a1726; --text:#ece9f5; --muted:#a39fb5; --accent:#a78bfa; --ok:#6ee7a8; --bad:#f87171; --warn:#fbbf24; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 "JetBrains Mono", ui-monospace, Consolas, monospace; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 18px 64px; }
+  h1 { color: var(--accent); font-size: 28px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 0 0 10px; }
+  p, li { color: var(--text); }
+  .muted { color: var(--muted); font-size: 14px; }
+  .card { background: var(--card); border: 1px solid #2c2740; border-radius: 12px; padding: 18px; margin: 18px 0; }
+  .step { color: var(--accent); font-weight: 700; margin-right: 6px; }
+  a { color: var(--accent); }
+  label.drop { display:block; border: 2px dashed #3d3658; border-radius: 10px; padding: 26px; text-align:center; cursor:pointer; }
+  label.drop:hover, label.drop.over { border-color: var(--accent); }
+  input[type=file] { display:none; }
+  button, .btn { background: var(--accent); color:#120f1c; border:0; border-radius: 8px; padding: 10px 14px; font: inherit; font-weight:700; cursor:pointer; text-decoration:none; display:inline-block; margin: 4px 6px 4px 0; }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  #log { white-space: pre-wrap; font-size: 14px; margin-top: 12px; }
+  .ok { color: var(--ok); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+  code { background:#262137; padding: 1px 5px; border-radius: 4px; }
+  pre { background:#262137; padding: 10px; border-radius: 8px; overflow-x:auto; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>nzportable-duck</h1>
+  <p class="muted">Join Nazi Zombies: Portable browser co-op rooms (nzp.gay, Duckmath) from the native Windows game. Everything runs in this page. Nothing is uploaded.</p>
+
+  <div class="card">
+    <h2><span class="step">1</span>Get the official exe</h2>
+    <p>Download <a href="https://github.com/nzp-team/fteqw/releases/download/bleeding-edge/pc-nzp-win64-nosdl.zip">pc-nzp-win64-nosdl.zip</a> from nzp-team, then extract <code>nzportable64.exe</code>.</p>
+    <p class="muted">Use the <b>nosdl</b> zip. The SDL exe (<code>nzportable-sdl64.exe</code>) cannot join web rooms.</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">2</span>Patch it</h2>
+    <label class="drop" id="drop">Click or drop <code>nzportable64.exe</code> here
+      <input type="file" id="file" accept=".exe">
+    </label>
+    <div id="log" class="muted">Waiting for a file.</div>
+    <button id="save" disabled>Download nzportable64-dtlsclient.exe</button>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">3</span>Get the config files</h2>
+    <p>Put these next to the exe. <code>autoexec.cfg</code> goes inside the <code>nzp</code> folder.</p>
+    <button id="fmf">default.fmf</button>
+    <button id="cfg">autoexec.cfg</button>
+    <a class="btn" href="config/identity.pfx" download>identity.pfx</a>
+    <p class="muted">identity.pfx is a shared, throwaway RSA certificate that is known to work with Windows. It is not a secret. You can delete it, and the game makes its own.</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">4</span>Add the game data for the host</h2>
+    <p>The game files must match the room's host. Make one folder for each.</p>
+    <p><b>nzp.gay rooms</b>: <a href="https://nzp.gay/nzp/game.pk3">game.pk3</a> and <a href="https://nzp.gay/nzp/progs.pk3">progs.pk3</a></p>
+    <p><b>Duckmath rooms</b>: <a href="https://pub-2d868f15a1824cc8a2ec51069ed41c6f.r2.dev/nzp_game.pk3">nzp_game.pk3</a> (rename it to <code>game.pk3</code>), plus <code>progs.pk3</code> from the <code>nzp</code> folder of Duckmath's game page.</p>
+    <p class="muted">Do not extract .pk3 files. If your browser saves one as .zip, rename it back to .pk3.</p>
+    <pre>NZP-Web\
+  nzportable64-dtlsclient.exe
+  default.fmf
+  identity.pfx
+  nzp\autoexec.cfg
+  nzp\game.pk3
+  nzp\progs.pk3</pre>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">5</span>Play</h2>
+    <p>Run <code>nzportable64-dtlsclient.exe</code>. Go to Co-operative, then the server browser, then refresh, and join an unlocked room.</p>
+    <p class="muted">Kicked with "Map model file does not match"? Use the other data folder.</p>
+  </div>
+
+  <div class="card">
+    <h2>Live rooms</h2>
+    <div id="rooms" class="muted">Loading the latest snapshot...</div>
+  </div>
+
+  <p class="muted">Not affiliated with nzp-team or Duckmath. Engine: <a href="https://github.com/nzp-team/fteqw">FTEQW</a> (GPL-2.0-or-later). This project: GPL-3.0. <a href="https://github.com/debug-cli/nzportable-duck">Source and docs</a>.</p>
+</main>
+
+<script src="patcher.js"></script>
+<script>
+(function () {
+  "use strict";
+  var FMF = 'game nzp\r\nname "Nazi Zombies Portable"\r\nbasegame nzp\r\nmainconfig "nzportable.cfg"\r\ndisablehomedir 1\r\nprotocolname "NZP-REBOOT-WEB NZP-REBOOT"\r\n';
+  var CFG = 'net_enable_dtls 1\r\nnet_ice_usewebrtc 1\r\n';
+  var log = document.getElementById("log");
+  var save = document.getElementById("save");
+  var drop = document.getElementById("drop");
+  var out = null;
+
+  function say(html, cls) { log.className = cls || ""; log.innerHTML = html; }
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function sha256(u8) { return crypto.subtle ? crypto.subtle.digest("SHA-256", u8).then(hex) : Promise.resolve(null); }
+  function download(name, data, type) {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([data], { type: type || "application/octet-stream" }));
+    a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+  }
+
+  function handle(file) {
+    out = null; save.disabled = true;
+    if (!file) return;
+    say("Reading " + file.name + "...", "muted");
+    file.arrayBuffer().then(function (ab) {
+      var u8 = new Uint8Array(ab);
+      return sha256(u8).then(function (h) {
+        if (h && NZPPatcher.PATCHED[h]) { say("This exe is already patched. You're good to go.", "ok"); return; }
+        var known = h && NZPPatcher.KNOWN[h];
+        var r = NZPPatcher.patch(u8);
+        if (!r.ok) { say(r.message, r.status === "already" ? "ok" : "bad"); return; }
+        return sha256(r.output).then(function (oh) {
+          var lines = ["Patched at offset 0x" + r.offset.toString(16) + "."];
+          if (known) {
+            lines.push("Input: " + known.name + ".");
+            if (oh === known.patched) lines.push("Output hash verified.");
+            else { say("Output hash does not match. Not saving.", "bad"); return; }
+          } else {
+            lines.push("Warning: unknown build" + (h ? " (" + h.slice(0, 16) + "...)" : "") + ". Patched by pattern, not verified.");
+          }
+          out = r.output; save.disabled = false;
+          say(lines.join("\n"), known ? "ok" : "warn");
+        });
+      });
+    }).catch(function (e) { say("Could not read the file: " + e, "bad"); });
+  }
+
+  document.getElementById("file").addEventListener("change", function (e) { handle(e.target.files[0]); });
+  ["dragenter", "dragover"].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.add("over"); }); });
+  ["dragleave", "drop"].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.remove("over"); }); });
+  drop.addEventListener("drop", function (e) { handle(e.dataTransfer.files[0]); });
+  save.addEventListener("click", function () { if (out) download("nzportable64-dtlsclient.exe", out); });
+  document.getElementById("fmf").addEventListener("click", function () { download("default.fmf", FMF, "text/plain"); });
+  document.getElementById("cfg").addEventListener("click", function () { download("autoexec.cfg", CFG, "text/plain"); });
+
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  fetch("status/rooms.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (d) {
+    var web = d.games && d.games["NZP-REBOOT-WEB"], el = document.getElementById("rooms");
+    if (!web || !web.length) { el.textContent = "No snapshot right now. Refresh the server browser in game."; return; }
+    var open = web.filter(function (x) { return !x.locked && x.players < x.max; });
+    open.sort(function (a, b) { return b.players - a.players; });
+    var players = web.reduce(function (n, x) { return n + x.players; }, 0);
+    var html = "<p>" + web.length + " web rooms, " + players + " players, as of " + esc(d.updated) + ".</p>";
+    html += "<pre>" + open.slice(0, 8).map(function (x) {
+      return esc(x.address) + "  " + esc(x.map) + "  " + x.players + "/" + x.max + "  " + esc(x.host);
+    }).join("\n") + "</pre><p class=\"muted\">Open rooms with free slots. Numbers change fast. In game, press ~ and type <code>connect rtc:///NUMBER</code>.</p>";
+    el.innerHTML = html;
+  }).catch(function () { document.getElementById("rooms").textContent = "Snapshot unavailable. Refresh the server browser in game."; });
+})();
+</script>
+</body>
+</html>

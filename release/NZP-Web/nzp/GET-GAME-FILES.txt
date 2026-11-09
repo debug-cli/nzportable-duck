@@ -1,0 +1,5 @@
+Put these two files in this nzp folder, then run nzportable64-dtlsclient.exe.
+Do not extract .pk3 files.
+
+game.pk3: https://nzp.gay/nzp/game.pk3
+progs.pk3: https://nzp.gay/nzp/progs.pk3

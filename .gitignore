@@ -1,0 +1,5 @@
+*.exe
+*.pk3
+*.zip
+joinlog*.txt
+node_modules/

@@ -1,0 +1,25 @@
+name: Verify patch
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 12 * * 1"   # weekly: catch upstream rebuilds
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Download official builds
+        run: |
+          curl -fsSL -o nosdl.zip https://github.com/nzp-team/fteqw/releases/download/bleeding-edge/pc-nzp-win64-nosdl.zip
+          curl -fsSL -o sdl.zip https://github.com/nzp-team/fteqw/releases/download/bleeding-edge/pc-nzp-win64.zip
+          unzip -o -q nosdl.zip && unzip -o -q sdl.zip
+          sha256sum nzportable64.exe nzportable-sdl64.exe
+      - name: Test JS patcher
+        run: node tests/test-patch.js nzportable64.exe nzportable-sdl64.exe
+      - name: Test Python patcher
+        run: python3 tools/patch.py nzportable64.exe out.exe && sha256sum out.exe

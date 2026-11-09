@@ -1,0 +1,12 @@
+name: New nzp-team build
+description: nzp-team released a new Windows build and the patcher says "unknown build" or "pattern not found"
+labels: [new-build]
+body:
+  - type: input
+    id: sha
+    attributes:
+      label: sha256 of nzportable64.exe (the patcher page shows the first 16 characters)
+  - type: textarea
+    id: msg
+    attributes:
+      label: What did the patcher say?

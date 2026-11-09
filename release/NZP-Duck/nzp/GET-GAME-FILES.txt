@@ -1,0 +1,7 @@
+Put these two files in this nzp folder, then run nzportable64-dtlsclient.exe.
+Do not extract .pk3 files.
+
+game.pk3: https://pub-2d868f15a1824cc8a2ec51069ed41c6f.r2.dev/nzp_game.pk3
+  (rename nzp_game.pk3 to game.pk3)
+progs.pk3: from the nzp folder of the Duckmath COD Zombies Portable game page.
+  See https://github.com/debug-cli/nzportable-duck#game-data

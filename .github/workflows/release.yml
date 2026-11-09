@@ -1,0 +1,42 @@
+name: Build release zip
+# Builds the zip in CI from the official nzp-team exe, so anyone can audit it.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing release tag to attach the zip to"
+        required: true
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      NOSDL_SHA: 5a6d35ed01be1b3570556efebcd167cd68bedcc90feb46a2396fe195f97dc5ce
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and verify the official exe
+        run: |
+          curl -fsSL -o nosdl.zip https://github.com/nzp-team/fteqw/releases/download/bleeding-edge/pc-nzp-win64-nosdl.zip
+          echo "$NOSDL_SHA  nosdl.zip" | sha256sum -c -
+          unzip -o -q nosdl.zip
+      - name: Patch
+        run: python3 tools/patch.py nzportable64.exe nzportable64-dtlsclient.exe
+      - name: Assemble
+        run: |
+          set -e
+          for F in NZP-Duck NZP-Web; do
+            mkdir -p pkg/$F/nzp
+            cp nzportable64-dtlsclient.exe config/default.fmf config/identity.pfx pkg/$F/
+            cp config/nzp/autoexec.cfg pkg/$F/nzp/
+            cp release/$F/nzp/GET-GAME-FILES.txt pkg/$F/nzp/
+          done
+          cp release/README.txt LICENSE SOURCE.md pkg/
+          (cd pkg && zip -q -r -X ../nzportable-duck-$TAG.zip .)
+          sha256sum nzportable64-dtlsclient.exe nzportable-duck-$TAG.zip | tee SHA256SUMS.txt
+      - name: Upload to the release
+        run: gh release upload "$TAG" nzportable-duck-$TAG.zip SHA256SUMS.txt --clobber

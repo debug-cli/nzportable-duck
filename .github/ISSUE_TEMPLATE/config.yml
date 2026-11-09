@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Official NZ:P project
+    url: https://github.com/nzp-team/nzportable
+    about: Game bugs that are not about joining web rooms from Windows go upstream.

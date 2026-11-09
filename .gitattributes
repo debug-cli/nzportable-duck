@@ -1,0 +1,6 @@
+*.fmf text eol=crlf
+*.cfg text eol=crlf
+*.pfx binary
+*.exe binary
+release/*.txt text eol=crlf
+release/**/*.txt text eol=crlf
