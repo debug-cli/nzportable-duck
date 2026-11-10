@@ -5,8 +5,7 @@
 </h1>
 
 <p>
-  Nazi Zombies: Portable for Windows that joins the busy duckmath.org and nzp.gay browser co-op rooms.<br>
-  No PowerShell, no CMD, no WSL, no admin. A browser and File Explorer are enough.
+  Nazi Zombies: Portable for Windows that joins the busy duckmath.org and nzp.gay browser co-op rooms.
 </p>
 
 <p align="center">
