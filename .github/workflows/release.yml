@@ -18,7 +18,7 @@ jobs:
       NOSDL_SHA: 5a6d35ed01be1b3570556efebcd167cd68bedcc90feb46a2396fe195f97dc5ce
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Download and verify the official exe
         run: |
           curl -fsSL -o nosdl.zip https://github.com/nzp-team/fteqw/releases/download/bleeding-edge/pc-nzp-win64-nosdl.zip
