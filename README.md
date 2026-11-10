@@ -29,7 +29,6 @@
 
 <p>
   <a href="https://github.com/debug-cli/nzportable-duck/releases/latest"><b>Download</b></a> ·
-  <a href="status/ROOMS.md"><b>Live rooms</b></a> ·
   <a href="TECHNICAL.md"><b>How it works</b></a>
 </p>
 
@@ -77,16 +76,6 @@ NZP-Duck\
 NZP-Web\
   (same, with nzp.gay's game.pk3 and progs.pk3)
 ```
-
-## Join by room number
-
-Press `~` and type:
-
-```
-connect rtc:///42
-```
-
-Use three slashes. The [live rooms](status/ROOMS.md) snapshot updates every hour.
 
 ## Troubleshooting
 

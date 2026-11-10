@@ -6,7 +6,7 @@
 
 This is the deep reference for **anyone changing this repository**: contributors, maintainers, and AI coding agents. It assumes you can read C, JavaScript, Python, and Git. If you are looking for "what is this project and why should I use it", that lives in [`README.md`](README.md).
 
-Nothing here is aspirational. Every claim was checked against the files at commit `d28a3fa`, the upstream source at commit `f68a2b547d2dc4bf6886b922baa1bff487cc5038`, the official binaries, or a user log. Dates are `YYYY-MM-DD`. Facts that changed over time are dated. Facts that could not be verified are marked UNVERIFIED or INFERRED. The commands that reproduce the counts and hashes are in §19.
+Nothing here is aspirational. Every claim was checked against the files at the commit that added this line, the upstream source at commit `f68a2b547d2dc4bf6886b922baa1bff487cc5038`, the official binaries, or a user log. Dates are `YYYY-MM-DD`. Facts that changed over time are dated. Facts that could not be verified are marked UNVERIFIED or INFERRED. The commands that reproduce the counts and hashes are in §19.
 
 Repo: `debug-cli/nzportable-duck`. No website or GitHub Pages site exists, and none is wanted. Do not add one.
 
@@ -20,7 +20,6 @@ Repo: `debug-cli/nzportable-duck`. No website or GitHub Pages site exists, and n
 | Chasing a join failure | §13 debugging cookbook, §14 traps |
 | Working with game data | §7 data compatibility |
 | Touching the certificate | §8 certificate |
-| Working with the room list | §9 master server and tools/rooms.py |
 | Cutting a release or editing CI | §11 CI and release, §16 playbook for a release |
 | Contributing | §15 contribution rules, §17 review checklist |
 | Auditing this document | §19 verifying this document |
@@ -47,7 +46,7 @@ A NZ:P browser room is a game hosted by a **browser tab** (duckmath.org or nzp.g
     │ heartbeat and query
     ▼
 master.frag-net.com:27950
-   /raw/NZP-REBOOT-WEB     (web rooms, addresses like rtc:///42)
+   /raw/NZP-REBOOT-WEB     (web rooms)
    /raw/NZP-REBOOT         (desktop servers)
     ▲
     │ 1. list (protocolname in default.fmf)
@@ -79,30 +78,29 @@ Consequences you must internalise:
 - **Networking is all this repo changes.** Config, one patched exe, one certificate. The game itself is untouched (rule zero).
 - **The Windows constraint shapes every design decision.** Users are students on locked school PCs. No PowerShell, no CMD, no WSL, no MSYS2, no VMs, no Linux, no admin rights. Every user-facing step must work with File Explorer, a browser download, and the in-game console.
 - **Verification is by bytes and hashes, not by running things.** You cannot run the Windows exe on Linux, and the school PC is not a development machine. CI re-derives the patched exe from the official download and checks hashes. You should do the same (§10, §19).
-- **Rooms are ephemeral.** A room number like `rtc:///42` points at a different room minutes later. The hourly snapshot in `status/` is a point-in-time view, never a guarantee (§9).
+- **Rooms are ephemeral.** Listings are stale within minutes and this repo ships no room snapshot. Use the in-game server browser.
 
 ---
 
 ## 2. Repository map
 
-Tracked tree at `d28a3fa` (2026-11-09): **30 files, 90,619 B, 1,833 lines.** `.gitignore` blocks `*.exe`, `*.pk3`, `*.zip`, and `joinlog*.txt`. The `.git` directory is excluded from these counts.
+Tracked tree (2026-11-10): **26 files, 133,818 B, 2,138 lines.** `.gitignore` blocks `*.exe`, `*.pk3`, `*.zip`, and `joinlog*.txt`. The `.git` directory is excluded from these counts.
 
 ```
 .
-├── README.md                       10,412 B   user guide (plain language)        editable
+├── README.md                       10,117 B   user guide (plain language)        editable
 ├── AGENTS.md                       this file  engineering handbook (this document) editable
 ├── TECHNICAL.md                     4,062 B   root causes with source references  editable, keep factual
 ├── SOURCE.md                        1,154 B   GPL source pointer + patch diff    only if the patch changes
 ├── UPSTREAM_ISSUE.md                1,466 B   draft issue for nzp-team/fteqw     editable
 ├── SECURITY.md                        595 B   certificate policy                 editable
-├── CHANGELOG.md                       448 B   one entry per release              editable, every release
+├── CHANGELOG.md                       676 B   one entry per release              editable, every release
 ├── LICENSE                          35,149 B  GPL-3.0                            frozen (§12)
 ├── .gitignore                          45 B                                     editable
 ├── .gitattributes                     125 B   CRLF enforcement                   rarely, keep the CRLF rules
 ├── patcher.js                       3,183 B   patch logic, Node + browser, ES5   carefully (§10)
 ├── tools/
-│   ├── patch.py                     1,111 B   same patch in Python, byte-identical output required
-│   └── rooms.py                     2,855 B   master server snapshot to status/  editable
+│   └── patch.py                     1,111 B   same patch in Python, byte-identical output required
 ├── tests/
 │   └── test-patch.js                1,475 B   patch test against the real builds  editable
 ├── config/
@@ -114,18 +112,14 @@ Tracked tree at `d28a3fa` (2026-11-09): **30 files, 90,619 B, 1,833 lines.** `.g
 │   ├── README.txt                     539 B                                        yes
 │   ├── NZP-Duck/nzp/GET-GAME-FILES.txt   364 B                                    yes
 │   └── NZP-Web/nzp/GET-GAME-FILES.txt    191 B                                    yes
-├── status/                                    bot output, ONLY rooms.yml writes   FROZEN BY HAND (§9)
-│   ├── ROOMS.md                     1,774 B                                        no
-│   └── rooms.json                   4,844 B                                        no
 ├── assets/
 │   └── title.svg                    2,206 B   SMIL title, hand-written           yes
 └── .github/
     ├── workflows/
     │   ├── verify.yml                 933 B   downloads official builds, runs both patchers
-    │   ├── release.yml              1,640 B   builds and attaches the release zip on publish
-    │   └── rooms.yml                  595 B   hourly room snapshot               disabled (§11)
+    │   └── release.yml              1,640 B   builds and attaches the release zip on publish
     ├── ISSUE_TEMPLATE/
-    │   ├── join-problem.yml         1,027 B
+    │   ├── join-problem.yml         1,070 B
     │   ├── new-build.yml              359 B
     │   └── config.yml                206 B
     └── dependabot.yml                113 B
@@ -138,7 +132,7 @@ Editability legend:
 | editable | Change it as needed. Keep the style rules in this file |
 | carefully | Change it only with its counterpart in the same commit, and run the tests (§10) |
 | rarely | Networking lines only. Keep CRLF. See §6 |
-| FROZEN | Never edit. `identity.pfx` is a shared public cert. `status/` is bot output |
+| FROZEN | Never edit. `identity.pfx` is a shared public cert |
 | frozen (§12) | `LICENSE` stays GPL-3.0 |
 
 Not in git, by design: `.exe`, `.pk3`, `.bsp`, `.dll`, `.zip` files, `joinlog*.txt`, and any real private key. `.gitignore` blocks them. Check `git status` before every commit anyway (§15).
@@ -201,8 +195,7 @@ The page text references `nzp/game.pk3` relative to the page. How `progs.pk3` is
 
 Not visible in any file read on 2026-11-09. The facts on record:
 
-- Web rooms register on `master.frag-net.com:27950` under `NZP-REBOOT-WEB` and are listed at `/raw/NZP-REBOOT-WEB` (§9, verified 2026-11-06).
-- Room addresses look like `rtc:///42` and are joined with `connect rtc:///42` in the console (three slashes, §14).
+- Web rooms register on `master.frag-net.com:27950` under `NZP-REBOOT-WEB` (§9, verified 2026-11-06).
 - The broker that swaps the WebRTC offer and answer was not read. Which host runs it for Duckmath is UNVERIFIED. Do not name one in docs without reading it first.
 - No TURN relay is known for these rooms (§9).
 
@@ -491,7 +484,7 @@ The project notes describe the shipped pfx as "an RSA 2048 pfx tagged for Micros
 
 ---
 
-## 9. The master server and the room list
+## 9. The master server
 
 ### Protocol names
 
@@ -500,29 +493,7 @@ The project notes describe the shipped pfx as "an RSA 2048 pfx tagged for Micros
 | `NZP-REBOOT-WEB` | Browser-hosted rooms (duckmath.org, nzp.gay) | `http://master.frag-net.com:27950/raw/NZP-REBOOT-WEB` |
 | `NZP-REBOOT` | Desktop servers | `http://master.frag-net.com:27950/raw/NZP-REBOOT` |
 
-`/game/<name>` also exists on the master (noted 2026-11-07). The `/raw` endpoints return plain text, one room per line, fields escaped with backslashes (`\key\value\key\value`). The Python stdlib received HTTP 404 from the sandbox on 2026-11-07, while `curl` worked. `tools/rooms.py` tries urllib first and falls back to `curl`.
-
-### Room addresses
-
-Web room addresses look like `rtc:///42` (three slashes). Join from the console with:
-
-```
-connect rtc:///42
-```
-
-The room number alone is meaningless minutes later. Numbers are recycled (§14).
-
-### `tools/rooms.py`
-
-What it does, exactly:
-
-1. Fetches `/raw/NZP-REBOOT-WEB` and `/raw/NZP-REBOOT` (urllib, `User-Agent: nzportable-duck`, 20 s timeout, `curl -fsS -m 20` fallback).
-2. Parses each line into address, `hostname`, `mapname`, `clients`, `maxclients`, `needpass`.
-3. Writes `status/rooms.json` (machine-readable) and `status/ROOMS.md` (human table, rooms sorted by players descending).
-4. On failure, records `{"error": ...}` for that game and keeps going. It does not delete the old file.
-5. Prints the first 5 lines. Used by `.github/workflows/rooms.yml` (currently disabled, §11).
-
-Tracked snapshot, `status/ROOMS.md` as of **2026-11-09 19:42 UTC**: **30 web rooms, 24 not locked, 60 players.** Previous snapshot (2026-11-06, about 17:46 UTC): **55 web servers, 105 players, 4 desktop servers.** These numbers move. The file is the only source of truth and it is bot output. Never hand-edit `status/` (§2, §15).
+The in-game server browser queries these endpoints. The web hosts' rooms register under `NZP-REBOOT-WEB`, which is why `default.fmf` carries both tokens (§6). This repository ships no room snapshot and no tooling for the endpoints. Use the in-game server browser. Rooms change constantly, and there is nothing here to cache or track.
 
 ### No TURN relay
 
@@ -595,13 +566,11 @@ Notes from the doc-authoring environment: GitHub release asset downloads were bl
 | --- | --- | --- |
 | `verify.yml` | push, PR, weekly cron (Mondays 12:00 UTC), manual | Downloads both official zips, prints their hashes, runs `node tests/test-patch.js nzportable64.exe nzportable-sdl64.exe` and `python3 tools/patch.py` |
 | `release.yml` | `release: published`, or manual with a tag | Downloads `pc-nzp-win64-nosdl.zip`, checks it against `NOSDL_SHA` (`5a6d35ed01be1b3570556efebcd167cd68bedcc90feb46a2396fe195f97dc5ce`), patches with `tools/patch.py`, assembles `NZP-Duck/` and `NZP-Web/` with config and `release/*/GET-GAME-FILES.txt`, zips it, writes `SHA256SUMS.txt`, uploads both to the release with `gh release upload --clobber` |
-| `rooms.yml` | hourly cron (minute 17), manual | Runs `tools/rooms.py` and commits `status/` if changed |
 
 ### Current state, as of 2026-11-09
 
 - **GitHub Actions are blocked by an account billing lock.** Every job fails before starting. The failing runs are 3 to 4 seconds long (`gh run list` shows `Verify patch` failing on `main` and on the dependabot branches, checked 2026-11-09). The owner reports the failure message is `account is locked due to a billing issue` (2026-11-09). Log download was blocked from the sandbox used for this document, so the message text is owner-reported, and the instant-failure timing is verified.
-- **`rooms.yml` is disabled.** `status/` is stale since 2026-11-09 19:42 UTC and will stay stale until billing is fixed and the workflow is re-enabled.
-- **After billing is fixed:** re-enable `rooms.yml`, then re-run `verify.yml` on `main`, then re-run `release.yml` against `v1.0.0` (the workflow supports `workflow_dispatch` with an existing tag).
+- **After billing is fixed:** re-run `verify.yml` on `main`, then re-run `release.yml` against `v1.0.0` (the workflow supports `workflow_dispatch` with an existing tag).
 - **Dependabot PRs #1 and #5 are open** (`actions/setup-node` 4 → 7, `actions/checkout` 4 → 7), checked 2026-11-09. PRs #2 to #4 (Pages actions for the removed workflow) are no longer open.
 - **`ubuntu-latest` migrates to Ubuntu 26 starting 2026-10-19** (§14).
 
@@ -649,7 +618,7 @@ Log line or symptom → cause → fix. Capture a log first: press `~`, type `net
 | Kicked with `INIT malformed` from a Chrome host | You are on the SDL exe | §5. Use the nosdl build |
 | Room lists, then hangs forever at connecting | `net_ice_usewebrtc ""` in `autoexec.cfg` | Remove the override. The default is correct (§6) |
 | `.pk3` won't open / game has no maps | Browser saved the pk3 as `.zip`, or it was extracted | Rename back to `.pk3`. Never extract (§14) |
-| Room was there, now connection refused | Room numbers recycle | Refresh the browser, pick another room (§9) |
+| Room was there, now connection refused | Rooms are ephemeral | Refresh the server browser, pick another room |
 | `Map model file does not match (maps/4all.bsp)` on a Duckmath room | You used the NZP-Web folder | Use NZP-Duck (§7) |
 | `Map model file does not match (maps/4all.bsp)` on an nzp.gay room | You used the NZP-Duck folder | Use NZP-Web (§7) |
 | Join works at home, fails at school | The school network blocks UDP to off-LAN hosts | Try a school-LAN room, or report it with a joinlog (§18) |
@@ -672,7 +641,6 @@ Any failure before stage 6 is a networking problem. A failure at stage 6 is a da
 ## 14. Traps
 
 - **A browser saves `.pk3` files as `.zip`.** Rename them back. Never extract them. Never let a user extract them either.
-- **`rtc:///N` needs three slashes**, and you type `connect` first in the console.
 - **FTE overwrites a bad `identity.pfx` silently** (`net_ssl_winsspi.c`, `FS_WriteFile` path). If the file changed by itself, FTE did it (§8).
 - **The same room number means a different room minutes later.** Never hardcode a room.
 - **nzp.gay and Duckmath data look alike and are not the same.** The wrong one gives the map mismatch kick (§7).
@@ -682,9 +650,6 @@ Any failure before stage 6 is a networking problem. A failure at stage 6 is a da
 - **`net_ice_usewebrtc ""` hangs.** There is no SCTP without WebRTC mode (§6).
 - **Deleting `dlcache` is part of switching data folders.** People forget this and report the wrong fix (§7).
 - **`ubuntu-latest` migrates to Ubuntu 26 starting 2026-10-19.** Check the runner changelog before assuming a workflow behavior (§11).
-- **`urllib` got HTTP 404 from the master server while `curl` worked** (2026-11-07). `tools/rooms.py` has the curl fallback for this reason.
-- **Room numbers are recycled.** An old bookmark is a lottery ticket (§9).
-- **`status/ROOMS.md` is bot output.** Manual edits get overwritten or conflict. Never edit it by hand (§2).
 - **The release zip must not contain pk3s, ever** (§11).
 - **`default.fmf` and `autoexec.cfg` are CRLF.** An editor that strips CRLF can break the parse on the user's machine (§6).
 - **A green fork workflow is not a thing.** The fork was blocked at the connector level (§4, step 19). If you want a maintained fork, that is an owner decision, not an agent decision.
@@ -700,7 +665,6 @@ Any failure before stage 6 is a networking problem. A failure at stage 6 is a da
 | --- | --- |
 | Docs | `README.md`, this file, `TECHNICAL.md`, `UPSTREAM_ISSUE.md`, `SECURITY.md`, `CHANGELOG.md`, `release/` texts |
 | Patch | `patcher.js`, `tools/patch.py`, `tests/test-patch.js` (both patchers in one commit, §10) |
-| Tools | `tools/rooms.py` |
 | CI | `.github/workflows/*.yml`, issue templates, `dependabot.yml` |
 | Config | `config/default.fmf` and `config/nzp/autoexec.cfg`, **networking lines only** (§6) |
 | Assets | `assets/title.svg` |
@@ -709,7 +673,6 @@ Any failure before stage 6 is a networking problem. A failure at stage 6 is a da
 
 - Everything covered by rule zero: `game.pk3`, `progs.pk3`, maps, models, sounds, textures, QuakeC (`progs.dat`, `csprogs.dat`), engine game logic. None of these are in this repo and none may be added.
 - `config/identity.pfx` (§8).
-- `status/` (bot output only, §9).
 - `LICENSE` (GPL-3.0, §12).
 - The patch bytes, offsets, or hashes outside the new-build playbook (§16).
 
@@ -723,7 +686,6 @@ Any failure before stage 6 is a networking problem. A failure at stage 6 is a da
 - Ask for, guess, or brute-force room passwords.
 - Re-host or mirror Duckmath or nzp.gay data.
 - Bump a version, tag, or release name unless the owner explicitly asks. Never guess a version string.
-- Hand-edit `status/`.
 - Change `.gitattributes` CRLF rules without a reason in the commit message.
 
 ### Always
@@ -806,7 +768,6 @@ Same shape as 16.2, for the `NZP-Web` folder: files from §7, `GET-GAME-FILES.tx
 - [ ] `SOURCE.md` still describes the patch accurately
 - [ ] `CHANGELOG.md` updated for user-facing changes
 - [ ] CRLF still intact in `default.fmf`, `autoexec.cfg`, `.gitattributes`, `release/`
-- [ ] `status/` untouched by hand
 - [ ] No new dependency, bundler, or build step introduced
 - [ ] AGENTS.md updated in the same commit (this file counts as docs)
 - [ ] Compatibility-affecting change: a joinlog line from a real duckmath.org room is quoted in the PR
@@ -829,10 +790,8 @@ Each item is dated. Resolve them or re-date them when you touch this file.
 9. **The exact provenance of `identity.pfx`** (FTE auto fallback vs hand-built, §8) is INFERRED, not proven. Behavior does not depend on it.
 10. **No public TURN relay is known.** Whether none exists is unverified (§9).
 11. **`assets/title.svg` has not been visually rendered and checked** by the author of this document.
-12. **`rooms.yml` is disabled and `status/` is stale** as of 2026-11-09. Freshness is unverified until billing is fixed and it runs again (§11).
-13. **`/game/<name>` on the master server** was noted once (2026-11-07) and is otherwise untested. Nothing in the repo depends on it.
-14. **The `maps/4all.bsp` checksums** (`0xC1BDD9E5` / `0xE51410F0`) come from one joinlog each. A Duckmath or nzp.gay update invalidates them.
-15. **GitHub Actions billing lock.** The failure message is owner-reported (2026-11-09). Log download was blocked from the authoring sandbox, so the exact billing error text is INFERRED from the owner's report plus the 3 to 4 second failure signature (§11).
+12. **The `maps/4all.bsp` checksums** (`0xC1BDD9E5` / `0xE51410F0`) come from one joinlog each. A Duckmath or nzp.gay update invalidates them.
+13. **GitHub Actions billing lock.** The failure message is owner-reported (2026-11-09). Log download was blocked from the authoring sandbox, so the exact billing error text is INFERRED from the owner's report plus the 3 to 4 second failure signature (§11).
 
 ---
 
@@ -841,9 +800,9 @@ Each item is dated. Resolve them or re-date them when you touch this file.
 ### 19.1 From a clone, no network
 
 ```bash
-git ls-files | wc -l                 # 30 (d28a3fa)
-git ls-files | xargs wc -c | tail -1 # 90,619 total
-git ls-files | xargs wc -l | tail -1 # 1,833 total
+git ls-files | wc -l                 # 26 (2026-11-10)
+git ls-files | xargs wc -c | tail -1 # 133,818 total
+git ls-files | xargs wc -l | tail -1 # 2,138 total
 
 # line endings
 python3 -c "print(open('config/default.fmf','rb').read().count(b'\r\n'), 'CRLF lines in default.fmf')"   # 6
@@ -927,10 +886,9 @@ curl -fsSL -o nzp_game.pk3 https://pub-2d868f15a1824cc8a2ec51069ed41c6f.r2.dev/n
 | Exe hashes, output hash (§5, §10) | Carried from project logs | Release-asset download blocked from the authoring sandbox |
 | Game data hashes (§7) | Carried from the 2026-11-07 nzp.gay verification and the 2026-11-09 Duckmath join | Hosts not reachable from the authoring sandbox |
 | The successful join, 10:03 PST 2026-11-09 (§4 step 24) | Carried from user log | Cannot join rooms from a sandbox |
-| Room counts (§9) | Carried from the committed snapshot | `status/ROOMS.md`, 2026-11-09 19:42 UTC |
 
 If a number in this document disagrees with the tree, the tree is right. Fix the document in the same commit that changed the fact.
 
 ---
 
-*Last updated 2026-11-09. Branch `arena/1b6b0283-nzportable-duck`.*
+*Last updated 2026-11-10. Branch `arena/86ebb2a4-nzportable-duck`.*
