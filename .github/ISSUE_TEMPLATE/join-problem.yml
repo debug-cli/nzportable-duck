@@ -20,8 +20,8 @@ body:
   - type: input
     id: room
     attributes:
-      label: Room address
-      placeholder: rtc:///42
+      label: Room (optional)
+      placeholder: The room name as it appears in the server browser
   - type: textarea
     id: lastline
     attributes:
